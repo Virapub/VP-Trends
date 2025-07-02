@@ -661,3 +661,4 @@ const data = {
     "Comfort"
   ]
 };
+module.exports = data;
