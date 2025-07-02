@@ -4,7 +4,8 @@ on:
   push:
     paths:
       - data.js
-
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
