@@ -31,3 +31,4 @@ jobs:
         git add products/
         git commit -m "Auto-generated product pages"
         git push
+        module.exports = data;
