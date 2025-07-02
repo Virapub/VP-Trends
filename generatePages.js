@@ -12,7 +12,7 @@ products.forEach((product) => {
 <body>
   <div class="container">
     <h1>${product.name}</h1>
-    <img src="${product.image}" alt="${product.name}" />
+    "https://m.media-amazon.com/images/I/61jdVmdnBgL._SL1500_.jpg"
     <p><strong>Price:</strong> ₹${product.priceINR}</p>
     <p>${product.description}</p>
     <a href="${product.link}" target="_blank">Buy on Amazon</a>
