@@ -2,9 +2,8 @@ name: Generate Product Pages
 
 on:
   push:
-    paths:
-      - data.js
-
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
