@@ -1,3 +1,6 @@
+const fs = require('fs');
+const products = require('./data'); // Assuming your product data is in 'data.js'
+
 products.forEach((product) => {
   const html = `
 <!DOCTYPE html>
@@ -9,7 +12,7 @@ products.forEach((product) => {
 <body>
   <div class="container">
     <h1>${product.name}</h1>
-    "https://m.media-amazon.com/images/I/61jdVmdnBgL._SL1500_.jpg"
+    <img src="${product.image}" alt="${product.name}" style="max-width:300px;">
     <p><strong>Price:</strong> ₹${product.priceINR}</p>
     <p>${product.description}</p>
     <a href="${product.link}" target="_blank">Buy on Amazon</a>
