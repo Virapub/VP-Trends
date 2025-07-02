@@ -1,6 +1,25 @@
 const data = {
   products: [
     {
+  id: "kutchina-aroma-breakfast-maker",
+  name: "KUTCHINA Aroma Breakfast Maker Machine 5 in 1",
+  description: "Multifunctional appliance with sandwich maker, idli maker, egg boiler, dhokla steamer, momo steamer, and tea/coffee maker – ideal for Indian kitchens.",
+  priceINR: 5499,
+  priceUSD: 65.99,
+  category: "Appliances",
+  link: "https://amzn.to/40niboz",
+  image: "https://m.media-amazon.com/images/I/61jdVmdnBgL._SL1500_.jpg",
+  page: "products.html#kutchina-aroma-breakfast-maker",
+  rating: 4.2,
+  features: [
+    "5-in-1 multifunctional design",
+    "Sandwich, idli, momo and dhokla steamers",
+    "Egg boiler and tea/coffee station",
+    "1200 Watts powerful performance",
+    "Stainless steel build"
+  ]
+},
+    {
       id: "collapsible-electric-kettle",
       name: "Collapsible Electric Kettle",
       description: "Space-saving collapsible kettle with auto shut-off and boil-dry protection",
