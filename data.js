@@ -1,24 +1,6 @@
 const data = {
   products: [
-    {
-  id: "test-smart-mug",
-  name: "Smart Temperature Control Mug",
-  description: "Keeps your beverage at the perfect temperature all day long — ideal for work-from-home setups.",
-  priceINR: 1999,
-  priceUSD: 24.00,
-  category: "Smart Gadgets",
-  link: "https://amzn.to/test-smart-mug",
-  image: "https://via.placeholder.com/300x300.png?text=Smart+Mug",
-  page: "products.html#test-smart-mug",
-  rating: 4.3,
-  features: [
-    "Auto temperature regulation",
-    "USB-C rechargeable",
-    "Leak-proof lid",
-    "Elegant matte finish"
-  ]
-    },
-    {
+     {
   id: "kutchina-aroma-breakfast-maker",
   name: "KUTCHINA Aroma Breakfast Maker Machine 5 in 1",
   description: "Multifunctional appliance with sandwich maker, idli maker, egg boiler, dhokla steamer, momo steamer, and tea/coffee maker – ideal for Indian kitchens.",
