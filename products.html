@@ -3,171 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Products | KitchenLink</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>KitchenLink - All Products</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .category {
+            margin-bottom: 40px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .product-details {
+            padding: 15px;
+        }
+        .dual-price {
+            margin: 10px 0;
+        }
+        .price-inr {
+            color: #e63946;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        .price-usd {
+            color: #666;
+            font-size: 0.9rem;
+            margin-left: 8px;
+        }
+        .currency-switcher {
+            margin: 20px 0;
+            text-align: right;
+        }
+        .currency-btn {
+            padding: 5px 15px;
+            margin-left: 10px;
+            background: #eee;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .currency-btn.active {
+            background: #333;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <nav role="navigation">
-        <div class="nav-container">
-            <div class="logo">KitchenLink</div>
-            <button class="hamburger" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
-            <div class="links">
-                <a href="index.html">Home</a>
-                <a href="products.html" class="active">Products</a>
-            </div>
-        </div>
-    </nav>
-
-    <header role="banner" class="products-header">
-        <h1>Our Smart Kitchen Products</h1>
-        <p>Affordable gadgets to upgrade your cooking experience</p>
+    <header>
+        <div class="logo">KitchenLink</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html" class="active">All Products</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </nav>
     </header>
 
-    <div class="category-filters">
-        <button class="filter-btn active" data-category="all">All</button>
-        <button class="filter-btn" data-category="Appliances">Appliances</button>
-        <button class="filter-btn" data-category="Smart Gadgets">Smart Gadgets</button>
-        <!-- Add more categories from your data.js -->
-    </div>
-    <main class="products-container" id="productList">
-        <div class="price">
-  ₹${product.priceINR} / $${product.priceUSD} <!-- INR + USD -->
-</div>
+    <main class="container">
+        <h1>Our Products</h1>
+        
+        <div class="currency-switcher">
+            <span>Show prices in:</span>
+            <button class="currency-btn active" data-currency="both">Both</button>
+            <button class="currency-btn" data-currency="inr">INR Only</button>
+            <button class="currency-btn" data-currency="usd">USD Only</button>
+        </div>
 
-    
-        <!-- Products will be loaded from data.js -->
+        <div id="product-categories-container">
+            <!-- Categories will load here -->
+        </div>
     </main>
 
-    <footer role="contentinfo">
-        <!-- Same footer as index.html -->
- <p class="disclosure">
-    ⚡️ As an Amazon Associate, I earn from qualifying purchases.
-  </p>
-  
+    <footer>
+        <p>&copy; 2023 KitchenLink. All prices in INR (₹) and USD ($).</p>
     </footer>
 
     <script src="data.js"></script>
     <script>
-        // Product Filtering Functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const productList = document.getElementById('productList');
-            const filterButtons = document.querySelectorAll('.filter-btn');
+            const container = document.getElementById('product-categories-container');
             
-            // Generate product listings
-            function generateProducts(category = 'all') {
-                let html = '';
-                const filteredProducts = category === 'all' 
-                    ? data.products 
-                    : data.products.filter(product => product.category === category);
+            // Load all products
+            for (const [category, products] of Object.entries(productsByCategory)) {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
                 
-                filteredProducts.forEach(product => {
-                    html += `
-                        <div class="product" data-category="${product.category}">
-                            <div class="image-container">
-                                <img src="${product.image}" alt="${product.name}" loading="lazy">
+                const heading = document.createElement('h2');
+                heading.textContent = category;
+                categoryDiv.appendChild(heading);
+                
+                const productsGrid = document.createElement('div');
+                productsGrid.className = 'products-grid';
+                
+                products.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}" class="product-img">
+                        <div class="product-details">
+                            <h3>${product.name}</h3>
+                            <p class="product-desc">${product.description}</p>
+                            <div class="dual-price">
+                                <span class="price-inr">${product.price.inr}</span>
+                                <span class="price-usd">${product.price.usd}</span>
                             </div>
-                            <div class="product-content">
-                                <h3 class="title">${product.name}</h3>
-                                <div class="price">₹${product.priceINR}</div>
-                                <div class="rating">
-                                    ${'<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating))}
-                                    ${product.rating % 1 ? '<i class="fas fa-star-half-alt"></i>' : ''}
-                                    <span>${product.rating}</span>
-                                </div>
-                                <a href="${product.link}" 
-                                   class="buy" 
-                                   target="_blank" 
-                                   rel="noopener nofollow sponsored">
-                                    Buy on Amazon
-                                </a>
-                            </div>
+                            <a href="${product.link}" class="btn">View Details</a>
                         </div>
                     `;
+                    productsGrid.appendChild(card);
                 });
-                productList.innerHTML = html || '<p class="no-products">No products found in this category</p>';
+                
+                categoryDiv.appendChild(productsGrid);
+                container.appendChild(categoryDiv);
             }
 
-            // Initialize with all products
-            generateProducts();
-
-            // Filter buttons functionality
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    generateProducts(button.dataset.category);
+            // Currency switcher functionality
+            document.querySelectorAll('.currency-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const currencyPref = this.dataset.currency;
+                    
+                    document.querySelectorAll('.dual-price').forEach(priceDiv => {
+                        const inr = priceDiv.querySelector('.price-inr');
+                        const usd = priceDiv.querySelector('.price-usd');
+                        
+                        switch(currencyPref) {
+                            case 'both':
+                                inr.style.display = 'inline';
+                                usd.style.display = 'inline';
+                                break;
+                            case 'inr':
+                                inr.style.display = 'inline';
+                                usd.style.display = 'none';
+                                break;
+                            case 'usd':
+                                inr.style.display = 'none';
+                                usd.style.display = 'inline';
+                                break;
+                        }
+                    });
                 });
             });
         });
-// Category Filter Code
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      // 1. Sabhi buttons se 'active' class hatao
-      filterButtons.forEach(b => b.classList.remove('active'));
-      
-      // 2. Clicked button ko 'active' karo
-      btn.classList.add('active');
-      
-      // 3. Category ke hisab se filter karo
-      const category = btn.dataset.category;
-      const products = document.querySelectorAll('.product');
-      
-      products.forEach(product => {
-        if (category === 'all' || product.dataset.category === category) {
-          product.style.display = 'block';
-        } else {
-          product.style.display = 'none';
-        }
-      });
-    });
-  });
-        const searchInput = document.getElementById('searchInput');
-  
-  // Real-time search functionality
-  searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
-    
-    // Filter products from data.js
-    const results = data.products.filter(product => 
-      product.name.toLowerCase().includes(query) || 
-      product.description.toLowerCase().includes(query)
-    );
-    
-    // Display results (ye function banana padega)
-    displaySearchResults(results);
-  });
-
-  // Results dikhane ka function
-  function displaySearchResults(results) {
-    const productList = document.getElementById('productList');
-    
-    if(results.length === 0) {
-      productList.innerHTML = '<p class="no-results">No products found</p>';
-      return;
-    }
-    
-    let html = '';
-    results.forEach(product => {
-      html += `
-        <div class="product">
-          <img src="${product.image}" alt="${product.name}">
-          <h3>${product.name}</h3>
-          
-          <div class="price">
-  ₹${product.priceINR} / $${product.priceUSD} <!-- INR + USD -->
-</div>
-
-    
-          <a href="${product.link}" target="_blank">Buy Now</a>
-        </div>
-      `;
-    });
-    
-    productList.innerHTML = html;
-  }
-  </script>
+    </script>
 </body>
 </html>
