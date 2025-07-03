@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KitchenLink - All Products</title>
+    <title>All Products | KitchenLink</title>
     <link rel="stylesheet" href="style.css">
-    
 </head>
 <body>
     <header>
-        <div class="logo">KitchenLink</div>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="products.html" class="active">All Products</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
-        </nav>
+        <div class="nav-container">
+            <div class="logo">KitchenLink</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="products.html" class="active">Products</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
     </header>
 
     <main class="container">
-        <h1>Our Product Catalog</h1>
+        <h1>Our Product Collection</h1>
         
         <div class="currency-switcher">
             <span>Display prices in:</span>
@@ -29,24 +30,45 @@
         </div>
 
         <div id="product-categories-container">
-            <div class="loading-message">Loading products...</div>
+            <!-- Categories load here -->
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2023 KitchenLink. All prices in INR (₹) and USD ($).</p>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2023 KitchenLink. All prices in INR (₹) and USD ($).</p>
+            </div>
+        </div>
     </footer>
 
-    <script src="data.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('product-categories-container');
             
-            // Clear loading message
-            container.innerHTML = '';
+            // Sample data - replace with data.js in production
+            const categories = {
+                "Kitchen Appliances": [
+                    {
+                        name: "Smart Coffee Maker",
+                        image: "images/coffee-maker.jpg",
+                        price: { inr: "₹3,499", usd: "$41.99" },
+                        description: "Programmable timer with auto shut-off",
+                        link: "products/kitchen-appliances/smart-coffee-maker.html"
+                    }
+                ],
+                "Bathroom Essentials": [
+                    {
+                        name: "Electric Toothbrush",
+                        image: "images/toothbrush.jpg",
+                        price: { inr: "₹1,599", usd: "$19.19" },
+                        description: "3 cleaning modes with 2-week battery",
+                        link: "products/bathroom-essentials/electric-toothbrush.html"
+                    }
+                ]
+            };
 
-            // Generate product categories and cards
-            Object.entries(productsByCategory).forEach(([category, products]) => {
+            Object.entries(categories).forEach(([category, products]) => {
                 const categoryDiv = document.createElement('div');
                 categoryDiv.className = 'category';
                 
@@ -58,19 +80,10 @@
                 productsGrid.className = 'products-grid';
                 
                 products.forEach(product => {
-                    // Generate SEO-friendly slugs
-                    const productSlug = product.name.toLowerCase()
-                        .replace(/[^\w\s]/gi, '')
-                        .replace(/\s+/g, '-');
-                    const categorySlug = category.toLowerCase()
-                        .replace(/[^\w\s]/gi, '')
-                        .replace(/\s+/g, '-');
-                    
-                    // Create product card
                     const card = document.createElement('div');
                     card.className = 'product-card';
                     card.innerHTML = `
-                        <img src="${product.image}" alt="${product.name}" class="product-img" loading="lazy">
+                        <img src="${product.image}" alt="${product.name}" class="product-img">
                         <div class="product-details">
                             <h3>${product.name}</h3>
                             <p class="product-desc">${product.description}</p>
@@ -78,7 +91,7 @@
                                 <span class="price-inr">${product.price.inr}</span>
                                 <span class="price-usd">${product.price.usd}</span>
                             </div>
-                            <a href="products/${categorySlug}/${productSlug}.html" class="btn">View Details</a>
+                            <a href="${product.link}" class="btn">View Details</a>
                         </div>
                     `;
                     productsGrid.appendChild(card);
@@ -91,37 +104,24 @@
             // Currency switcher functionality
             document.querySelectorAll('.currency-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    // Update active button
-                    document.querySelectorAll('.currency-btn').forEach(b => {
-                        b.classList.remove('active');
-                        b.style.backgroundColor = '#e9ecef';
-                        b.style.color = '#212529';
-                    });
+                    document.querySelectorAll('.currency-btn').forEach(b => 
+                        b.classList.remove('active'));
                     this.classList.add('active');
-                    this.style.backgroundColor = '#2a9d8f';
-                    this.style.color = 'white';
                     
-                    // Update price displays
                     const currencyPref = this.dataset.currency;
                     document.querySelectorAll('.dual-price').forEach(priceDiv => {
                         const inr = priceDiv.querySelector('.price-inr');
                         const usd = priceDiv.querySelector('.price-usd');
                         
-                        inr.style.display = currencyPref === 'usd' ? 'none' : 'inline';
-                        usd.style.display = currencyPref === 'inr' ? 'none' : 'inline';
-                        
-                        // Highlight active currency
                         if (currencyPref === 'inr') {
-                            inr.style.fontWeight = 'bold';
-                            inr.style.color = '#e63946';
-                            usd.style.fontWeight = 'normal';
+                            inr.style.display = 'block';
+                            usd.style.display = 'none';
                         } else if (currencyPref === 'usd') {
-                            usd.style.fontWeight = 'bold';
-                            usd.style.color = '#e63946';
-                            inr.style.fontWeight = 'normal';
+                            inr.style.display = 'none';
+                            usd.style.display = 'block';
                         } else {
-                            inr.style.fontWeight = 'bold';
-                            usd.style.fontWeight = 'normal';
+                            inr.style.display = 'block';
+                            usd.style.display = 'block';
                         }
                     });
                 });
