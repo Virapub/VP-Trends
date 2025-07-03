@@ -3,156 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KitchenLink - Smart Kitchen Gadgets</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>KitchenLink - Home</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .featured-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .featured-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .featured-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .featured-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .featured-details {
+            padding: 15px;
+        }
+        .dual-price {
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .price-inr {
+            color: #e63946;
+            font-size: 1.2rem;
+        }
+        .price-usd {
+            color: #666;
+            font-size: 0.9rem;
+            margin-left: 8px;
+        }
+    </style>
 </head>
 <body>
-    <nav role="navigation">
-        <div class="nav-container">
-            <div class="logo">KitchenLink</div>
-            <button class="hamburger" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
-            <div class="links">
-                <a href="index.html" class="active">Home</a>
-                <a href="products.html">Products</a>
-            </div>
-        </div>
-    </nav>
-
-    <header role="banner">
-        <h1>Smart Kitchen Gadgets</h1>
-        <p>Your one-stop shop for smart & affordable tools</p>
+    <header>
+        <div class="logo">KitchenLink</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">All Products</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </nav>
     </header>
 
-    <div class="search">
-        <input type="text" id="searchInput" placeholder="Search gadgets..." aria-label="Search kitchen gadgets">
-        <a href="products.html" class="all-products-btn">VIEW ALL PRODUCTS</a>
-    </div>
+    <main class="container">
+        <section class="hero">
+            <h1>Upgrade Your Home with Smart Essentials</h1>
+            <p>Discover quality products at affordable prices</p>
+            <a href="products.html" class="btn">Shop Now</a>
+        </section>
 
-    <div class="search-results" id="searchResults"></div>
-
-     <main class="products" id="productList">
-         <div class="price">
-  </div>
-        <!-- Products will load from data.js -->
+        <section class="featured">
+            <h2>Featured Products</h2>
+            <div class="featured-products" id="featured-products-container">
+                <!-- Featured products will load here -->
+            </div>
+        </section>
     </main>
 
-    <footer role="contentinfo">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>KitchenLink</h3>
-                <p>Upgrade your kitchen with smart gadgets</p>
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                </div>
-                <p class="disclosure">⚡️ As an Amazon Associate, I earn from qualifying purchases.</p>
-            </div>
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
-                    <li><a href="products.html"><i class="fas fa-chevron-right"></i> Products</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Contact</h3>
-                <ul class="footer-links">
-                    <li><a href="mailto:kitchenlink@query.com"><i class="fas fa-envelope"></i> Email Us</a></li>
-                </ul>
-            </div>
-        </div>
-        <p class="disclosure">
-    ⚡️ As an Amazon Associate, I earn from qualifying purchases.
-  </p>
-  <div class="copyright">
-            © 2025 KitchenLink | Eat Well. Live Smart.
-        </div>
+    <footer>
+        <p>&copy; 2023 KitchenLink. All prices in INR (₹) and USD ($).</p>
     </footer>
 
     <script src="data.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/search.js"></script>
-</body>
-
-    <script src="data.js"></script>
     <script>
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.links');
-        const dropdown = document.querySelector('.dropdown');
-        const dropdownContent = document.querySelector('.dropdown-content');
-        const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
-        const productList = document.getElementById('productList');
-
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            hamburger.innerHTML = navLinks.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        });
-
-        dropdown.querySelector('.dropbtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            dropdownContent.classList.toggle('show');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!dropdown.contains(e.target)) {
-                dropdownContent.classList.remove('show');
-            }
-        });
-
-        searchInput.addEventListener('input', () => {
-            const query = searchInput.value.toLowerCase().trim();
-            searchResults.innerHTML = '';
-            productList.style.display = query ? 'none' : 'grid';
-
-            if (query) {
-                // सर्च प्रोडक्ट्स
-                const productResults = data.products.filter(product => product.name.toLowerCase().includes(query));
-                // सर्च मील प्लान्स
-                const officeMealResults = data.mealPlans.office.filter(meal => meal.name.toLowerCase().includes(query));
-                const budgetMealResults = data.mealPlans.budget.filter(meal => meal.name.toLowerCase().includes(query));
-
-                // रिजल्ट्स डिस्प्ले
-                if (productResults.length || officeMealResults.length || budgetMealResults.length) {
-                    searchResults.innerHTML = '<h3>Search Results</h3>';
-                    productResults.forEach(product => {
-                        const div = document.createElement('div');
-                        div.className = 'search-result';
-                        div.innerHTML = `
-                            <a href="${product.page}">
-                                <div class="result-title">${product.name}</div>
-                                <div class="result-type">Product - ${product.price}</div>
-                            </a>
-                        `;
-                        searchResults.appendChild(div);
-                    });
-                    officeMealResults.forEach(meal => {
-                        const div = document.createElement('div');
-                        div.className = 'search-result';
-                        div.innerHTML = `
-                            <a href="${meal.page}">
-                                <div class="result-title">${meal.day}</div>
-                                <div class="result-type">Office Meal Plan - ${meal.name}</div>
-                            </a>
-                        `;
-                        searchResults.appendChild(div);
-                    });
-                    budgetMealResults.forEach(meal => {
-                        const div = document.createElement('div');
-                        div.className = 'search-result';
-                        div.innerHTML = `
-                            <a href="${meal.page}">
-                                <div class="result-title">${meal.day}</div>
-                                <div class="result-type">Budget Meal Plan - ${meal.name}</div>
-                            </a>
-                        `;
-                        searchResults.appendChild(div);
-                    });
-                } else {
-                    searchResults.innerHTML = '<p>No results found.</p>';
-                }
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('featured-products-container');
+            
+            featuredProducts.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'featured-card';
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="featured-img">
+                    <div class="featured-details">
+                        <h3>${product.name}</h3>
+                        <p class="product-desc">${product.description}</p>
+                        <div class="dual-price">
+                            <span class="price-inr">${product.price.inr}</span>
+                            <span class="price-usd">${product.price.usd}</span>
+                        </div>
+                        <a href="${product.link}" class="btn">View Details</a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         });
     </script>
+</body>
 </html>
