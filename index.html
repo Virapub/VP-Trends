@@ -75,5 +75,84 @@
     <script src="js/search.js"></script>
 </body>
 
-    
+    <script src="data.js"></script>
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.links');
+        const dropdown = document.querySelector('.dropdown');
+        const dropdownContent = document.querySelector('.dropdown-content');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const productList = document.getElementById('productList');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.innerHTML = navLinks.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        dropdown.querySelector('.dropbtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            dropdownContent.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dropdown.contains(e.target)) {
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase().trim();
+            searchResults.innerHTML = '';
+            productList.style.display = query ? 'none' : 'grid';
+
+            if (query) {
+                // सर्च प्रोडक्ट्स
+                const productResults = data.products.filter(product => product.name.toLowerCase().includes(query));
+                // सर्च मील प्लान्स
+                const officeMealResults = data.mealPlans.office.filter(meal => meal.name.toLowerCase().includes(query));
+                const budgetMealResults = data.mealPlans.budget.filter(meal => meal.name.toLowerCase().includes(query));
+
+                // रिजल्ट्स डिस्प्ले
+                if (productResults.length || officeMealResults.length || budgetMealResults.length) {
+                    searchResults.innerHTML = '<h3>Search Results</h3>';
+                    productResults.forEach(product => {
+                        const div = document.createElement('div');
+                        div.className = 'search-result';
+                        div.innerHTML = `
+                            <a href="${product.page}">
+                                <div class="result-title">${product.name}</div>
+                                <div class="result-type">Product - ${product.price}</div>
+                            </a>
+                        `;
+                        searchResults.appendChild(div);
+                    });
+                    officeMealResults.forEach(meal => {
+                        const div = document.createElement('div');
+                        div.className = 'search-result';
+                        div.innerHTML = `
+                            <a href="${meal.page}">
+                                <div class="result-title">${meal.day}</div>
+                                <div class="result-type">Office Meal Plan - ${meal.name}</div>
+                            </a>
+                        `;
+                        searchResults.appendChild(div);
+                    });
+                    budgetMealResults.forEach(meal => {
+                        const div = document.createElement('div');
+                        div.className = 'search-result';
+                        div.innerHTML = `
+                            <a href="${meal.page}">
+                                <div class="result-title">${meal.day}</div>
+                                <div class="result-type">Budget Meal Plan - ${meal.name}</div>
+                            </a>
+                        `;
+                        searchResults.appendChild(div);
+                    });
+                } else {
+                    searchResults.innerHTML = '<p>No results found.</p>';
+                }
+            }
+        });
+    </script>
 </html>
