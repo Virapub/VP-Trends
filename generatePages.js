@@ -16,6 +16,24 @@ Object.entries(data.productsByCategory).forEach(([category, products]) => {
   
   if (!fs.existsSync(categoryDir)) {
     fs.mkdirSync(categoryDir);
+const fs = require('fs');
+const path = require('path');
+const data = require('./data.js');
+
+// Create products directory if it doesn't exist
+const productsDir = path.join(__dirname, 'products');
+if (!fs.existsSync(productsDir)) {
+  fs.mkdirSync(productsDir);
+}
+
+// Create category subdirectories and product pages
+Object.entries(data.productsByCategory).forEach(([category, products]) => {
+  // Create category directory name (lowercase with hyphens)
+  const categoryDirName = category.toLowerCase().replace(/\s+/g, '-');
+  const categoryDir = path.join(productsDir, categoryDirName);
+  
+  if (!fs.existsSync(categoryDir)) {
+    fs.mkdirSync(categoryDir);
   }
 
   // Generate each product page
