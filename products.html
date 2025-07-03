@@ -6,64 +6,34 @@
     <title>KitchenLink - All Products</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .category {
-            margin-bottom: 40px;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .product-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .product-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-        .product-details {
-            padding: 15px;
-        }
-        .dual-price {
-            margin: 10px 0;
-        }
-        .price-inr {
-            color: #e63946;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-        .price-usd {
-            color: #666;
-            font-size: 0.9rem;
-            margin-left: 8px;
-        }
         .currency-switcher {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
             margin: 20px 0;
-            text-align: right;
+            text-align: center;
         }
         .currency-btn {
-            padding: 5px 15px;
-            margin-left: 10px;
-            background: #eee;
+            padding: 8px 16px;
+            margin: 0 5px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: all 0.3s;
+            background: #e9ecef;
         }
         .currency-btn.active {
-            background: #333;
+            background: #2a9d8f;
             color: white;
+        }
+        #product-categories-container {
+            margin-top: 30px;
+        }
+        .loading-message {
+            text-align: center;
+            padding: 30px;
+            font-size: 1.2rem;
+            color: #6c757d;
         }
     </style>
 </head>
@@ -79,17 +49,17 @@
     </header>
 
     <main class="container">
-        <h1>Our Products</h1>
+        <h1>Our Product Catalog</h1>
         
         <div class="currency-switcher">
-            <span>Show prices in:</span>
-            <button class="currency-btn active" data-currency="both">Both</button>
+            <span>Display prices in:</span>
+            <button class="currency-btn active" data-currency="both">INR & USD</button>
             <button class="currency-btn" data-currency="inr">INR Only</button>
             <button class="currency-btn" data-currency="usd">USD Only</button>
         </div>
 
         <div id="product-categories-container">
-            <!-- Categories will load here -->
+            <div class="loading-message">Loading products...</div>
         </div>
     </main>
 
@@ -102,8 +72,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('product-categories-container');
             
-            // Load all products
-            for (const [category, products] of Object.entries(productsByCategory)) {
+            // Clear loading message
+            container.innerHTML = '';
+
+            // Generate product categories and cards
+            Object.entries(productsByCategory).forEach(([category, products]) => {
                 const categoryDiv = document.createElement('div');
                 categoryDiv.className = 'category';
                 
@@ -115,10 +88,19 @@
                 productsGrid.className = 'products-grid';
                 
                 products.forEach(product => {
+                    // Generate SEO-friendly slugs
+                    const productSlug = product.name.toLowerCase()
+                        .replace(/[^\w\s]/gi, '')
+                        .replace(/\s+/g, '-');
+                    const categorySlug = category.toLowerCase()
+                        .replace(/[^\w\s]/gi, '')
+                        .replace(/\s+/g, '-');
+                    
+                    // Create product card
                     const card = document.createElement('div');
                     card.className = 'product-card';
                     card.innerHTML = `
-                        <img src="${product.image}" alt="${product.name}" class="product-img">
+                        <img src="${product.image}" alt="${product.name}" class="product-img" loading="lazy">
                         <div class="product-details">
                             <h3>${product.name}</h3>
                             <p class="product-desc">${product.description}</p>
@@ -126,7 +108,7 @@
                                 <span class="price-inr">${product.price.inr}</span>
                                 <span class="price-usd">${product.price.usd}</span>
                             </div>
-                            <a href="${product.link}" class="btn">View Details</a>
+                            <a href="products/${categorySlug}/${productSlug}.html" class="btn">View Details</a>
                         </div>
                     `;
                     productsGrid.appendChild(card);
@@ -134,33 +116,42 @@
                 
                 categoryDiv.appendChild(productsGrid);
                 container.appendChild(categoryDiv);
-            }
+            });
 
             // Currency switcher functionality
             document.querySelectorAll('.currency-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
+                    // Update active button
+                    document.querySelectorAll('.currency-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.style.backgroundColor = '#e9ecef';
+                        b.style.color = '#212529';
+                    });
                     this.classList.add('active');
+                    this.style.backgroundColor = '#2a9d8f';
+                    this.style.color = 'white';
                     
+                    // Update price displays
                     const currencyPref = this.dataset.currency;
-                    
                     document.querySelectorAll('.dual-price').forEach(priceDiv => {
                         const inr = priceDiv.querySelector('.price-inr');
                         const usd = priceDiv.querySelector('.price-usd');
                         
-                        switch(currencyPref) {
-                            case 'both':
-                                inr.style.display = 'inline';
-                                usd.style.display = 'inline';
-                                break;
-                            case 'inr':
-                                inr.style.display = 'inline';
-                                usd.style.display = 'none';
-                                break;
-                            case 'usd':
-                                inr.style.display = 'none';
-                                usd.style.display = 'inline';
-                                break;
+                        inr.style.display = currencyPref === 'usd' ? 'none' : 'inline';
+                        usd.style.display = currencyPref === 'inr' ? 'none' : 'inline';
+                        
+                        // Highlight active currency
+                        if (currencyPref === 'inr') {
+                            inr.style.fontWeight = 'bold';
+                            inr.style.color = '#e63946';
+                            usd.style.fontWeight = 'normal';
+                        } else if (currencyPref === 'usd') {
+                            usd.style.fontWeight = 'bold';
+                            usd.style.color = '#e63946';
+                            inr.style.fontWeight = 'normal';
+                        } else {
+                            inr.style.fontWeight = 'bold';
+                            usd.style.fontWeight = 'normal';
                         }
                     });
                 });
