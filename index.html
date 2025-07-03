@@ -115,5 +115,30 @@
             });
         });
     </script>
+    <script>
+  document.querySelector('.search-input').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const resultsContainer = document.querySelector('.search-results');
+    
+    if (searchTerm.length > 2) {
+      // Sample search logic - replace with your actual product search
+      resultsContainer.innerHTML = `
+        <div class="search-result">
+          <a href="products/smart-coffee-maker.html">
+            <img src="images/coffee-maker.jpg" class="search-result-img">
+            <div class="search-result-info">
+              <h4>Smart Coffee Maker</h4>
+              <p>₹3,499 • Kitchen Appliances</p>
+            </div>
+          </a>
+        </div>
+      `;
+      document.querySelector('.search-bar').classList.add('active');
+    } else {
+      resultsContainer.innerHTML = '';
+      document.querySelector('.search-bar').classList.remove('active');
+    }
+  });
+</script>
 </body>
 </html>
