@@ -3,121 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KitchenLink - Home</title>
+    <title>KitchenLink - Smart Home Essentials</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .featured-products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-        .featured-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s;
-            background: white;
-        }
-        .featured-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .featured-img {
-            width: 100%;
-            height: 200px;
-            object-fit: contain;
-            padding: 15px;
-            background: #f9f9f9;
-        }
-        .featured-details {
-            padding: 15px;
-        }
-        .dual-price {
-            margin: 10px 0;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .price-inr {
-            color: #e63946;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        .price-usd {
-            color: #666;
-            font-size: 0.9rem;
-        }
-        .product-rating {
-            color: #ff9529;
-            font-weight: bold;
-            margin: 8px 0;
-        }
-    </style>
 </head>
 <body>
     <header>
-        <div class="logo">KitchenLink</div>
-        <nav>
-            <a href="index.html" class="active">Home</a>
-            <a href="products.html">All Products</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
-        </nav>
+        <div class="nav-container">
+            <div class="logo">KitchenLink</div>
+            <nav>
+                <a href="index.html" class="active">Home</a>
+                <a href="products.html">Products</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
     </header>
 
     <main class="container">
         <section class="hero">
             <h1>Upgrade Your Home with Smart Essentials</h1>
-            <p>Discover quality products at affordable prices</p>
-            <a href="products.html" class="btn">Shop Now</a>
+            <p>Discover premium quality products designed to simplify your life at unbeatable prices</p>
+            <a href="products.html" class="btn">Explore Products</a>
         </section>
 
         <section class="featured">
             <h2>Featured Products</h2>
             <div class="featured-products" id="featured-products-container">
-                <!-- Dynamically loaded -->
+                <!-- Products load here -->
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2023 KitchenLink. All prices in INR (₹) and USD ($).</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>KitchenLink</h3>
+                    <p>Making smart living accessible to everyone.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 KitchenLink. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 
     <script>
-        // Updated to use the fixed data.js structure
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('featured-products-container');
             
-            // Sample data (replace with actual fetch from data.js in production)
+            // Sample data - replace with actual data.js import in production
             const featuredProducts = [
                 {
-                    id: "collapsible-electric-kettle",
                     name: "Collapsible Electric Kettle",
                     image: "images/kettle.jpg",
                     price: { inr: "₹1,299", usd: "$15.59" },
-                    description: "2-in-1 collapsible design saves space",
+                    description: "2-in-1 collapsible design with fast boiling",
                     rating: 4.5,
                     link: "products/kitchen-appliances/collapsible-electric-kettle.html"
                 },
                 {
-                    id: "automatic-soap-dispenser",
                     name: "Automatic Soap Dispenser",
                     image: "images/soap-dispenser.jpg",
                     price: { inr: "₹899", usd: "$10.79" },
-                    description: "Touch-free operation, 300ml capacity",
+                    description: "Touch-free operation with 300ml capacity",
                     rating: 4.3,
                     link: "products/bathroom-essentials/automatic-soap-dispenser.html"
-                },
-                {
-                    id: "vacuum-storage-bags",
-                    name: "Vacuum Storage Bags",
-                    image: "images/storage-bags.jpg",
-                    price: { inr: "₹649", usd: "$7.79" },
-                    description: "Set of 5 bags, saves 75% space",
-                    rating: 4.0,
-                    link: "products/home-organization/vacuum-storage-bags.html"
                 }
             ];
 
@@ -129,7 +89,7 @@
                     <div class="featured-details">
                         <h3>${product.name}</h3>
                         <p class="product-desc">${product.description}</p>
-                        <div class="product-rating">★ ${product.rating}/5</div>
+                        <div class="product-rating">★ ${product.rating}</div>
                         <div class="dual-price">
                             <span class="price-inr">${product.price.inr}</span>
                             <span class="price-usd">${product.price.usd}</span>
