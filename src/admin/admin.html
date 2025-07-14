@@ -1,1 +1,45 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Manage Products</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container my-5">
+    <h2>Admin Panel</h2>
+    <form id="add-product-form">
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" id="category">
+          <option value="low-budget">Low Budget</option>
+          <option value="mid-range">Mid Range</option>
+          <option value="premium">Premium</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="title">Product Title</label>
+        <input type="text" class="form-control" id="title" required>
+      </div>
+      <div class="form-group">
+        <label for="image">Image URL</label>
+        <input type="url" class="form-control" id="image" required>
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="text" class="form-control" id="price" required>
+      </div>
+      <div class="form-group">
+        <label for="affiliateLink">Affiliate Link</label>
+        <input type="url" class="form-control" id="affiliateLink" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Add Product</button>
+    </form>
+    <hr>
+    <div id="product-list"></div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
