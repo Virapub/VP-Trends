@@ -1,0 +1,14 @@
+{
+  "name": "amazon-affiliate-website",
+  "version": "1.0.0",
+  "description": "Free Amazon affiliate website for fashion and beauty",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "firebase": "^10.7.1",
+    "dotenv": "^16.3.1"
+  }
+}
